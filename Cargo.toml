@@ -1,6 +1,6 @@
 [package]
 name = "cardseed"
-version = "0.0.1"
+version = "0.0.2"
 edition = "2021"
 authors = ["conduition@proton.me"]
 description = "Pseudo-random numbers derived from playing cards using PBKDF2."
