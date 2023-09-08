@@ -6,6 +6,8 @@ authors = ["conduition@proton.me"]
 description = "Pseudo-random numbers derived from playing cards using PBKDF2."
 readme = "README.md"
 license = "Unlicense"
+repository = "https://github.com/conduition/cardseed"
+documentation = "https://docs.rs/cardseed/latest/cardseed"
 keywords = ["playing", "cards", "entropy", "rng", "derive"]
 
 [dependencies]
