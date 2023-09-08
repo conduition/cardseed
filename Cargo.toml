@@ -6,7 +6,7 @@ authors = ["conduition@proton.me"]
 description = "Pseudo-random numbers derived from playing cards using PBKDF2."
 readme = "README.md"
 license = "Unlicense"
-keywords = ["cards", "entropy", "rng", "derive", "playing cards"]
+keywords = ["playing", "cards", "entropy", "rng", "derive"]
 
 [dependencies]
 hmac = "0.12.1"
