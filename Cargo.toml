@@ -2,8 +2,11 @@
 name = "cardseed"
 version = "0.0.1"
 edition = "2021"
+authors = ["conduition@proton.me"]
 description = "Pseudo-random numbers derived from playing cards using PBKDF2."
+readme = "README.md"
 license = "Unlicense"
+keywords = ["cards", "entropy", "rng", "derive", "playing cards"]
 
 [dependencies]
 hmac = "0.12.1"
