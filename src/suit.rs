@@ -1,7 +1,8 @@
 use crate::errors;
 use std::fmt;
 
-#[derive(Clone, Copy, Debug, PartialEq)]
+/// Represents a playing card suit.
+#[derive(Clone, Copy, Debug, Eq, Hash, PartialEq)]
 pub enum Suit {
     Spades,
     Clubs,
@@ -61,6 +62,7 @@ impl fmt::Display for Suit {
 }
 
 impl Suit {
+    /// Returns the set of all suits.
     pub fn all() -> [Suit; 4] {
         [Suit::Spades, Suit::Clubs, Suit::Hearts, Suit::Diamonds]
     }

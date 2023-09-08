@@ -2,13 +2,17 @@ use crate::suit::Suit;
 use crate::{errors, DECK_SIZE, SUIT_SIZE};
 use std::{self, fmt};
 
-#[derive(Clone, Copy, Debug, PartialEq)]
+/// Represents a single playing card. The `suit` field is the card's suit, and the `value`
+/// field is the card's face value index from 0 to 12, where ace is zero and king is 12.
+#[derive(Clone, Copy, Debug, Eq, Hash, PartialEq)]
 pub struct Card {
     pub suit: Suit,
     pub value: u32,
 }
 
 impl Card {
+    /// Creates an empty `Card`, which represents the ace of spades.
+    /// Think of this as the zero card.
     pub fn ace_of_spades() -> Card {
         Card {
             value: 0,
@@ -18,7 +22,16 @@ impl Card {
 }
 
 impl From<Card> for u32 {
+    /// Convert a `Card` into a `u32` from 0 to 51. Panics if the
+    /// card's value is greater than or equal to `SUIT_SIZE`.
     fn from(card: Card) -> u32 {
+        if card.value >= SUIT_SIZE as u32 {
+            panic!(
+                "attempted to convert card with invalid value {} to u32",
+                card.value
+            );
+        }
+
         u32::from(card.suit) * SUIT_SIZE as u32 + card.value
     }
 }
@@ -26,6 +39,20 @@ impl From<Card> for u32 {
 impl TryFrom<u32> for Card {
     type Error = errors::ParseError;
 
+    /// Parses a card from a `u32` which should be in the range `[0..52]`.
+    /// Returns an `Err` if `x` is outside this range.
+    ///
+    /// ```
+    /// use cardseed::{Card, Suit};
+    ///
+    /// assert_eq!(
+    ///     Card::try_from(17),
+    ///     Ok(Card {
+    ///         suit: Suit::Clubs,
+    ///         value: 4,
+    ///     })
+    /// );
+    /// ```
     fn try_from(x: u32) -> Result<Card, errors::ParseError> {
         if x >= DECK_SIZE as u32 {
             return Err(errors::ParseError::BadInt(x));
@@ -39,6 +66,10 @@ impl TryFrom<u32> for Card {
 }
 
 impl fmt::Display for Card {
+    /// Formats a `Card` as a 2-character string. The first character is the `Card`'s
+    /// face `value`, and the other is its `suit`.
+    ///
+    /// Returns an error if the `Card`'s value is greater than or equal to `SUIT_SIZE`
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         let c = match self.value {
             0 => 'A',
@@ -58,6 +89,19 @@ impl fmt::Display for Card {
 impl std::str::FromStr for Card {
     type Err = errors::ParseError;
 
+    /// Parses a `Card` from a string. The first two characters of the string must be the same format
+    /// as `Card`'s string formatter outputs. The first character must be the card face value, and the
+    /// second must be its suit.
+    ///
+    /// ```
+    /// use cardseed::{Card, Suit};
+    ///
+    /// let card = "TH".parse::<Card>().unwrap(); // ten of hearts
+    /// assert_eq!(card, Card {
+    ///     suit: Suit::Hearts,
+    ///     value: 9,
+    /// });
+    /// ```
     fn from_str(s: &str) -> Result<Card, errors::ParseError> {
         let mut chars = s.chars();
 
